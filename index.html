@@ -72,6 +72,9 @@
 
 let scanner;
 
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxtqUqQCcSdykZ6fut7XXdZhhnjb6s7P5D2Dxg3FxiYbbr9hUVQzUawzVzn97cyj49-/exec";
+
 function startScanner() {
 
   document.getElementById("result").innerText =
@@ -90,42 +93,54 @@ function startScanner() {
       }
     },
 
-   function(decodedText) {
+    function(decodedText) {
 
-  document.getElementById("result").innerText =
-    "Customer ID: " + decodedText + "\nSending...";
+      document.getElementById("result").innerText =
+        "Customer ID: " + decodedText + "\nChecking...";
 
-  scanner.stop();
+      scanner.stop();
 
-  fetch("https://script.google.com/macros/s/AKfycbxtqUqQCcSdykZ6fut7XXdZhhnjb6s7P5D2Dxg3FxiYbbr9hUVQzUawzVzn97cyj49-/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain"
+      const script = document.createElement("script");
+
+      window.handleCustomer = function(data) {
+
+        if (data) {
+
+          document.getElementById("result").innerText =
+            "Customer found: " + data.name +
+            "\nTotal Liters: " + data.totalLiters +
+            "\nReward Progress: " + data.rewardProgress +
+            "\nFree Liters: " + data.freeLiters;
+
+        } else {
+
+          document.getElementById("result").innerText =
+            "Customer not found: " + decodedText;
+
+        }
+
+        script.remove();
+        delete window.handleCustomer;
+      };
+
+      script.onerror = function() {
+
+        document.getElementById("result").innerText =
+          "Connection error. Please try again.";
+
+        script.remove();
+        delete window.handleCustomer;
+      };
+
+      script.src =
+        APPS_SCRIPT_URL +
+        "?customerId=" +
+        encodeURIComponent(decodedText) +
+        "&callback=handleCustomer";
+
+      document.body.appendChild(script);
+
     },
-    body: JSON.stringify({
-      customerId: decodedText
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-
-    if (data.success) {
-      document.getElementById("result").innerText =
-        "Customer found: " + decodedText;
-    } else {
-      document.getElementById("result").innerText =
-        "Error: " + data.error;
-    }
-
-  })
-  .catch(error => {
-
-    document.getElementById("result").innerText =
-      "Connection error: " + error;
-
-  });
-
-},
 
     function(errorMessage) {
       // Normal scanning messages are ignored.
