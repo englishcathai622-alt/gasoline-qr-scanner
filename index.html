@@ -159,7 +159,22 @@ document.getElementById("litersPurchased").value = "";
 
   });
 }
+function confirmTransaction() {
 
+  const liters = Number(
+    document.getElementById("litersPurchased").value
+  );
+
+  if (!liters || liters <= 0) {
+    document.getElementById("result").innerText =
+      "Please enter the liters purchased.";
+
+    return;
+  }
+
+  document.getElementById("result").innerText =
+    "Purchase entered: " + liters + " L";
+}
 </script>
 
 </body>
