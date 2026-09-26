@@ -90,14 +90,42 @@ function startScanner() {
       }
     },
 
-    function(decodedText) {
+   function(decodedText) {
 
-      document.getElementById("result").innerText =
-        "Customer ID: " + decodedText;
+  document.getElementById("result").innerText =
+    "Customer ID: " + decodedText + "\nSending...";
 
-      scanner.stop();
+  scanner.stop();
 
+  fetch("https://script.google.com/macros/s/AKfycbxtqUqQCcSdykZ6fut7XXdZhhnjb6s7P5D2Dxg3FxiYbbr9hUVQzUawzVzn97cyj49-/exec", {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain"
     },
+    body: JSON.stringify({
+      customerId: decodedText
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+
+    if (data.success) {
+      document.getElementById("result").innerText =
+        "Customer found: " + decodedText;
+    } else {
+      document.getElementById("result").innerText =
+        "Error: " + data.error;
+    }
+
+  })
+  .catch(error => {
+
+    document.getElementById("result").innerText =
+      "Connection error: " + error;
+
+  });
+
+},
 
     function(errorMessage) {
       // Normal scanning messages are ignored.
