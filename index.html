@@ -109,7 +109,8 @@ function startScanner() {
       window.handleCustomer = function(data) {
 
         if (data) {
-
+document.getElementById("purchaseArea").style.display = "block";
+document.getElementById("litersPurchased").value = "";
           document.getElementById("result").innerText =
             "Customer found: " + data.name +
             "\nTotal Liters: " + data.totalLiters +
