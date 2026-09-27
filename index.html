@@ -109,8 +109,9 @@ document.getElementById("reader").style.display = "none";
 
       window.handleCustomer = function(data) {
 
-        if (data) {
+    if (data) {
 document.getElementById("purchaseArea").style.display = "block";
+document.getElementById("purchaseArea").dataset.customerId = decodedText;
 document.getElementById("litersPurchased").value = "";
           document.getElementById("result").innerText =
             "Customer found: " + data.name +
