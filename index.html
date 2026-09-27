@@ -168,12 +168,40 @@ function confirmTransaction() {
   if (!liters || liters <= 0) {
     document.getElementById("result").innerText =
       "Please enter the liters purchased.";
+    return;
+  }
 
+  const customerId =
+    document.getElementById("purchaseArea").dataset.customerId;
+
+  if (!customerId) {
+    document.getElementById("result").innerText =
+      "Customer ID is missing.";
     return;
   }
 
   document.getElementById("result").innerText =
-    "Purchase entered: " + liters + " L";
+    "Saving transaction...";
+
+  fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=UTF-8"
+    },
+    body: JSON.stringify({
+      customerId: customerId,
+      liters: liters
+    })
+  })
+  .then(function() {
+    document.getElementById("result").innerText =
+      "Transaction saved: " + liters + " L";
+  })
+  .catch(function(error) {
+    document.getElementById("result").innerText =
+      "Transaction error: " + error;
+  });
 }
 </script>
 
