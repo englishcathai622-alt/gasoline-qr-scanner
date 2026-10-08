@@ -191,8 +191,9 @@ function confirmTransaction() {
       "Content-Type": "text/plain;charset=UTF-8"
     },
     body: JSON.stringify({
-      customerId: customerId,
-      liters: liters
+  customerId: customerId,
+  liters: liters,
+  transactionId: crypto.randomUUID()
     })
   })
   .then(function() {
