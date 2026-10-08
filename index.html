@@ -163,6 +163,13 @@ document.getElementById("litersPurchased").value = "";
 }
 function confirmTransaction() {
 
+  const confirmButton =
+    document.getElementById("confirmButton");
+
+  if (confirmButton.disabled) {
+    return;
+  }
+
   const liters = Number(
     document.getElementById("litersPurchased").value
   );
@@ -181,7 +188,8 @@ function confirmTransaction() {
       "Customer ID is missing.";
     return;
   }
-
+confirmButton.disabled = true;
+confirmButton.innerText = "SAVING...";
   document.getElementById("result").innerText =
     "Saving transaction...";
 
