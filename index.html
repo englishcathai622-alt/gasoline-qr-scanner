@@ -162,7 +162,7 @@ document.getElementById("litersPurchased").value = "";
   });
 }
 function confirmTransaction() {
-  
+
   const liters = Number(
     document.getElementById("litersPurchased").value
   );
@@ -192,19 +192,14 @@ function confirmTransaction() {
       "Content-Type": "text/plain;charset=UTF-8"
     },
     body: JSON.stringify({
-  customerId: customerId,
-  liters: liters,
-  transactionId: crypto.randomUUID()
+      customerId: customerId,
+      liters: liters,
+      transactionId: crypto.randomUUID()
     })
   })
- .then(function() {
-  document.getElementById("result").innerText =
-    "Transaction saved: " + liters + " L";
-
-  document.getElementById("purchaseArea").style.display = "none";
-  document.getElementById("purchaseArea").dataset.customerId = "";
-  document.getElementById("litersPurchased").value = "";
-})
+  .then(function() {
+    document.getElementById("result").innerText =
+      "Transaction saved: " + liters + " L";
   })
   .catch(function(error) {
     document.getElementById("result").innerText =
