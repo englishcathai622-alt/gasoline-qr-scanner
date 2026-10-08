@@ -205,14 +205,20 @@ confirmButton.innerText = "SAVING...";
       transactionId: crypto.randomUUID()
     })
   })
-  .then(function() {
-    document.getElementById("result").innerText =
-      "Transaction saved: " + liters + " L";
-  })
-  .catch(function(error) {
-    document.getElementById("result").innerText =
-      "Transaction error: " + error;
-  });
+.then(function() {
+  document.getElementById("result").innerText =
+    "Transaction saved: " + liters + " L";
+
+  confirmButton.disabled = false;
+  confirmButton.innerText = "CONFIRM TRANSACTION";
+})
+.catch(function(error) {
+  document.getElementById("result").innerText =
+    "Transaction error: " + error;
+
+  confirmButton.disabled = false;
+  confirmButton.innerText = "CONFIRM TRANSACTION";
+});
 }
 </script>
 
