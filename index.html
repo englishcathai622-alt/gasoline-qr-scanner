@@ -197,9 +197,14 @@ function confirmTransaction() {
   transactionId: crypto.randomUUID()
     })
   })
-  .then(function() {
-    document.getElementById("result").innerText =
-      "Transaction saved: " + liters + " L";
+ .then(function() {
+  document.getElementById("result").innerText =
+    "Transaction saved: " + liters + " L";
+
+  document.getElementById("purchaseArea").style.display = "none";
+  document.getElementById("purchaseArea").dataset.customerId = "";
+  document.getElementById("litersPurchased").value = "";
+})
   })
   .catch(function(error) {
     document.getElementById("result").innerText =
