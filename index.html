@@ -103,8 +103,9 @@ function startScanner() {
       document.getElementById("result").innerText =
         "Customer ID: " + decodedText + "\nChecking...";
 
-      scanner.stop();
-document.getElementById("reader").style.display = "block";
+      scanner.stop().then(function() {
+  document.getElementById("reader").style.display = "block";
+});
       const script = document.createElement("script");
 
       window.handleCustomer = function(data) {
